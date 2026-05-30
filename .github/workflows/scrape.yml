@@ -1,13 +1,15 @@
-name: 且慢发车记录测试
+name: 且慢发车记录全量抓取
 
 on:
-  push:
+  schedule:
+    - cron: '27 10 * * *'  # 每天 18:27 北京时间 (UTC+8)
+    - cron: '43 12 * * *'  # 每天 20:43 北京时间 (UTC+8)
   workflow_dispatch:  # 允许手动触发
 
 jobs:
   scrape:
     runs-on: ubuntu-latest
-    timeout-minutes: 5
+    timeout-minutes: 10
 
     steps:
       - name: 检出代码
@@ -24,5 +26,8 @@ jobs:
       - name: 安装 Playwright Chromium
         run: playwright install --with-deps chromium
 
-      - name: 运行抓取测试
-        run: python scraper_mini.py
+      - name: 全量抓取并写入 Supabase
+        env:
+          SUPABASE_URL: ${{ secrets.SUPABASE_URL }}
+          SUPABASE_KEY: ${{ secrets.SUPABASE_KEY }}
+        run: python scraper_full.py
