@@ -35,7 +35,7 @@ PLANS = {
 
 CAT_ORDER = ['A股', '海外新兴市场股票', '境内债券', '海外债券', '海外成熟市场股票', '原油', '黄金']
 BATCH_SIZE = 5
-DELAY = 2
+DELAY = 0.5
 
 
 def extract_funds(html, prod):
